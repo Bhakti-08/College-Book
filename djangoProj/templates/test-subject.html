@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Test Page{% endblock %}
+{% block content %}
+<h3 class='my-4'>Upcoming Tests</h3>
+<div class='row'>
+    {% for d in data %}
+    <div class='col-md-4'>
+        <div class='card'>
+            <div class='card-body border-dark shadow'>
+                <h4 class='test-name'><a href="{% url 'test_question' d.id %}">{{d.test_name}}</a></h4>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

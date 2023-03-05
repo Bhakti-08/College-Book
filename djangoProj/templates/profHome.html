@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+    <meta name="viewport" , content="with =device-width, initial-scale=1.0" />
+    <title>Professor Home</title>
+    <link rel="stylesheet" href="/static/registrationForm.css" />
+  </head>
+  <body>
+			<section class="header">
+					<h2>College Book</h2>
+					<nav>
+						<div class="nav-links" id="navLinks">
+							<ul>
+								<li><a href="">ABOUT</a></li>
+								<li><a href="">FAQs</a></li>
+								<li><a href="{% url 'selectBranch' %}">UPCOMING TEST</a></li>
+								<!--li><a href="{% url 'add_test' %}">ARRANGE TEST</a></li--->
+								<li><a href="{% url 'upload_questionBank' data %}">UPLOAD QUESTION BANK</a></li>
+								<li><a href="{% url 'addingTest' data %}">TEST</a></li>
+								<li><a href="{% url 'addingTest' data %}">ADD SUBJECT</a></li>
+								<li><a href="{% url 'test_arranged' %}">UPLOAD TEST</a></li>
+                                <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+							</ul>
+						</div>
+					</nav>
+				</section>
+
+            </body>

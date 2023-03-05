@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}{{subject.test_name}} Test{% endblock %}
+{% block content %}
+<h2 class='my-4'>Test Subject: <span class='text-primary'>{{subject.test_name}}</span></h2>
+{% for q in final_questions %}
+<div class='card my-4 border-dark shadow'>
+    <h4 class='card-header border-dark'>Q.{{forloop.counter}} {{q.question}}</h4>
+    <form method='POST' action="">
+        {% csrf_token %}
+        <div class = 'card-body'>
+            <table class='table table-bordered'>
+                <tr>
+                    <td class='style = 'width:0.5%'><input required id='option_1' name='answer' type="radio" /></td>
+                    <th class='col-lg-3 col-md-12'><label for='option_1'>{{q.opt_1}}</label></th>
+                </tr>
+                <tr>
+                    <td class='col-1'><input required id='option_2' name='answer' type="radio" /></td>
+                    <th class='col-lg-3 col-md-12'><label for='option_2'>{{q.opt_2}}</label></th>
+                </tr>
+                <tr>
+                    <td class='col-1'><input required id='option_3' name='answer' type="radio" /></td>
+                    <th class='col-lg-3 col-md-12'><label for='option_3'>{{q.opt_3}}</label></th>
+                </tr>
+                <tr>
+                    <td class='col-1'><input required id='option_4' name='answer' type="radio" /></td>
+                    <th class='col-lg-3 col-md-12'><label for='option_4'>{{q.opt_4}}</label></th>
+                </tr>
+            </table>
+        </div>
+        <div class='card-footer'>
+            <!--input type='submit' name='Skip' value='Skip' class='btn btn-warning skipBtn'/-->
+            <input type='submit' name='Save' value='Save' class='btn btn-primary submitBtn'/>
+        </div>
+    </form>
+</div>
+{% endfor %}
+<div class=>
+    <button type='submit' class='btn btn-primary submitBtn' style='color: white; background-color: #f00; margin-bottom:20px' >Submit</button>
+</div>
+
+<!--nav aria-label="Page navigation example">
+    <ul class="pagination">
+    {% if question.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="{{subject.id}}/?page={{final_questions.previous_page_number}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+    {% endif %}
+    {% for n in totalPagelist %}  
+      <li class="page-item"><a class="page-link" href="{{subject.id}}/?page={{n}}">{{n}}</a></li>
+    {% endfor %}
+    {% if question.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="{{subject.id}}/?page={{final_questions.next_page_number}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+</!nav-->
+
+{% endblock %}

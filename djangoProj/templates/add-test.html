@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Test Page{% endblock %}
+{% block content %}
+<form method='POST'>
+    {% csrf_token %}
+    </br>
+    <div class='form-group first-form boootm-space'>   
+        <input class='form-control' type='text' name='test_name' placeholder='Enter the test name'>
+    </div>
+    <div class='pt-4'>
+        <button type='submit' class='btn btn-primary submitBtn' style='color: #fff'>Save</button>
+    </div> 
+    </br>
+    {% if data %}
+        <div class='pt-4'>
+            Your Test ID: {{data}}</br>
+            <a href="{% url 'test_arranged' %}">Lets upload questions</a>
+        </div>
+    {% endif %}
+</form>
+{% endblock %}

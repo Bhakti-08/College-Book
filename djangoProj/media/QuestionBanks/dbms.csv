@@ -1,0 +1,22 @@
+What is the full form of DBMS?,Data of Binary Management System,Database Management System,Database Management Service,Data Backup Management System,2
+What is DBMS?,DBMS is a collection of queries,DBMS is a high-level language,DBMS is a programming language,DBMS stores also modifies and retrieves data,4
+Which type of data can be stored in the database?,Image oriented data,Text and files containing data,Data in the form of audio or video,All of the above,4
+In which of the following formats data is stored in the database management system?,Image,Text,Table,Graph,3
+Which of the following is not a type of database?,Hierarchical,Network,Distributed,Decentralized,4
+Which of the following is not an example of DBMS?,MySQL,Microsoft Acess,IBM DB2,Google,4
+Which of the following is a feature of DBMS?,Minimum Duplication and Redundancy of Data,High Level of Security,Single-user Access only,Support ACID Property,3
+Which of the following is a feature of the database?,No-backup for the data stored,User interface provided,Lack of Authentication,Store data in multiple locations,2
+Which of the following is not a function of the database?,Managing stored data,Manipulating data,Security for stored data,Analysing code,4
+Which of the following is a function of the DBMS?,Storing data,Providing multi-users access control,Data Integrity,All of the above,4
+Which of the following is a component of the DBMS?,Data,Data Languages,Data Manager,All of the above,4
+Which of the following is known as a set of entities of the same type that share same properties, or attributes?,Relation set,Tuples,Entity set,Entity Relation model,3
+What is information about data called?,Hyper data,Tera data,Meta data,Relations,3
+What does an RDBMS consist of?,Collection of Records,Collection of Keys,Collection of Tables,Collection of Fields,3
+The DBMS acts as an interface between ________________ and ________________ of an enterprise-class system.,Data and the DBMS,Application and SQL,Database application and the database,The user and the software,3
+______________ is a set of one or more attributes taken collectively to uniquely identify a record.,Primary Key,Foreign key,Super key,Candidate key,3
+Which command is used to remove a relation from an SQL?,Drop table,Delete,Purge,Remove,1
+Which of the following set should be associated with weak entity set for weak entity to be meaningful?,Neighbour set,Strong entity set,Owner set,Identifying set,4
+Procedural language among the following is __________,Domain relational calculus,Tuple relational calculus,Relational algebra,Query language,3
+_________________ operations do not preserve non-matched tuples.,Left outer join,Inner join,Natural join,Right outer join,2
+Which forms have a relation that contains information about a single entity?,4NF,2NF,5NF,3NF,1
+_______ indicates the maximum number of entities that can be involved in a relationship., Greater Entity Count,Minimum cardinality,Maximum cardinality,ERD,3

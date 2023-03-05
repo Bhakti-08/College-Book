@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Adding Test{% endblock %}
+{% block content %}
+<h3 class='my-4'>Conducting Test</h3>
+<form method='POST'>
+    {% csrf_token %}
+    </br>
+    <div class='form-group first-form boootm-space'>   
+        <input class='form-control' type='text' name='test_name' placeholder='Enter the test name'>
+    </div>
+    <div class='pt-4'>
+        <button type='submit' class='btn btn-primary submitBtn' style='color: #fff'>Save</button>
+    </div> 
+    </br>
+</form>
+{% endblock %}
