@@ -56,12 +56,12 @@ class QuestionBank(models.Model):
 
 class Questions(models.Model):
     test = models.ForeignKey(Tests, on_delete = models.CASCADE,default=None,null=True,blank=True)
-    question = models.TextField()
-    opt_1 = models.CharField(max_length=200)
-    opt_2 = models.CharField(max_length=200)
-    opt_3 = models.CharField(max_length=200)
-    opt_4 = models.CharField(max_length=200)
-    right_opt = models.CharField(max_length=100)
+    question = models.TextField(default=None)
+    opt_1 = models.CharField(max_length=200,default=None)
+    opt_2 = models.CharField(max_length=200,default=None)
+    opt_3 = models.CharField(max_length=200,default=None)
+    opt_4 = models.CharField(max_length=200,default=None)
+    right_opt = models.CharField(max_length=100,default=None)
     
     def __str__(self):
         return self.question
