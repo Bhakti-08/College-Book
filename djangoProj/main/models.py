@@ -40,6 +40,12 @@ class Tests(models.Model):
     branch = models.ForeignKey(Branch, on_delete = models.CASCADE, default=None)
     subject = models.ForeignKey(Subjects, on_delete = models.CASCADE)
     testName = models.CharField(max_length=20)
+    numberOfQuestions = models.IntegerField(default=None)
+    #testDuration = models.DurationField(default=None)
+    testDate = models.DateField(default=None)
+    testStartTime = models.TimeField(default=None)
+    testEndTime = models.TimeField(default=None)
+    testBufferTime = models.TimeField(default=None)    
 
     def __str__(self):
         return self.testName
@@ -47,6 +53,18 @@ class Tests(models.Model):
 class QuestionBank(models.Model):
     subjectID = models.CharField(max_length=20, default=None)
     questionBank = models.FileField(upload_to='QuestionBanks/',default=None,null=True)
+
+class Questions(models.Model):
+    test = models.ForeignKey(Tests, on_delete = models.CASCADE,default=None,null=True,blank=True)
+    question = models.TextField()
+    opt_1 = models.CharField(max_length=200)
+    opt_2 = models.CharField(max_length=200)
+    opt_3 = models.CharField(max_length=200)
+    opt_4 = models.CharField(max_length=200)
+    right_opt = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.question
 
 class Professors(models.Model):
     firstName = models.CharField(max_length=50)

@@ -7,6 +7,8 @@ import csv,io
 from main.models import TestSubject, TestQuestions, Subjects, Branch, Tests, Professors, Students, QuestionBank
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate,login,logout
+from django.views.decorators.csrf import csrf_protect
+import random
 #from django.db import models
 #from . import models
 #from django.contrib.auth.decorators import permission_required
@@ -30,17 +32,47 @@ def index(request):
     else:
         return render(request, 'index.html',{'data':''})
 
-def addingTest(request,email):
-    if request.method=='POST':
-        obj1 = Professors.objects.get(email=email,role='Professor')
-        subject = obj1.subject
-        obj2 = Subjects.objects.get(subject=subject)
-        branch = obj2.branch
-        testName = request.POST.get('tname')
-        new_test = Tests(branch=branch,subject=subject,testName=testName)
+@csrf_protect
+def addingTest(request,subID):
+    pass
+    '''if request.method=='POST':
+        obj1 = Professors.objects.get(subjectID=subID)
+        branch = Branch.objects.get(branch=obj1.branch)
+        subject = Subjects.objects.get(subjectID=subID)
+        testName = request.POST.get('testName')
+        numberOfQuestions = int(request.POST.get('numberOfQuestions'))
+        testDate = request.POST.get('testDate')
+        testStartTime = request.POST.get('testStartTime')
+        testEndTime = request.POST.get('testEndTime')
+        testBufferTime = request.POST.get('testBufferTime')
+        new_test = Tests(branch=branch,subject=subject,testName=testName,numberOfQuestions=numberOfQuestions,testDate=testDate,testStartTime=testStartTime,testEndTime=testEndTime,testBufferTime=testBufferTime)
         new_test.save()
+        obj2 = QuestionBank.objects.get(subjectID=subID)
+        p = 'G:/project/djangoProj/media/'+str(obj2.questionBank)
+        file = open(p)
+        csvFile = csv.reader(file)
+        #data_set = csvFile.read().decode('UTF-8')
+        #lines = data_set.split('\n')
+        
+        lines =[]
+        for i in csvFile:
+            lines.append(i)
+        l = len(lines)
+        for i in range(0,numberOfQuestions):
+            j = random.randrange(0,l-1)
+            print(lines[i])
+            records = lines[j]
+            Questions.objects.update_or_create(
+                test = new_test,
+                question = records[0],
+                opt_1 = records[1],
+                opt_2 = records[2],
+                opt_3 = records[3],
+                opt_4 = records[4],
+                right_opt = records[5]
+            )
         return redirect('profHome')
-    return render(request,'addingTest.html')
+    return render(request,'addingTest.html')'''
 
 def profRegistrationForm(request):
     if request.method=='POST':
@@ -86,24 +118,29 @@ def studentRegistrationForm(request):
     else:
         return render(request, 'studentRegistrationForm.html',{'data':''})
 
-@login_required(login_url='login')
+
+@csrf_protect
+#@login_required(login_url='login')
 def profHome(request,subID):
     obj = Professors.objects.get(subjectID=subID)
     return render(request,'profHome.html',{'data':obj.subjectID})
 
-@login_required(login_url='login')
+@csrf_protect
+#@login_required(login_url='login')
 def studentHome(request,email):
     return render(request,'studentHome.html',{'data':email})
 
+@csrf_protect
 def logoutPage(request):
     logout(request)
     return redirect('login')
 
-@login_required(login_url='login')
+@csrf_protect
+#@login_required(login_url='login')
 def upload_questionBank(request,subID):
     # defining order of content in csv file
     prompt = {
-        'order': '<b>NOTE:</b> Order of CSV file contents should be test id, question, option_1, option_2, option_3, option_4, correct_option'
+        'order': '<b>NOTE:</b> Order of CSV file contents should be question, option_1, option_2, option_3, option_4, correct_option'
     }
     # checking whether the method is POST or not
     if request.method == 'GET':
@@ -121,23 +158,27 @@ def upload_questionBank(request,subID):
     data = '</br><b>Your File Is Sucessfully Uploaded :)</b>'
     return render(request, 'upload_questionBank.html', {'data':data})
 
-@login_required(login_url='login')    # only logined person can visit the questions
+@csrf_protect
+#@login_required(login_url='login')    # only logined person can visit the questions
 def test_subject(request):
     subject = TestSubject.objects.all()
     return render(request, 'test-subject.html',{'data':subject})
 
-@login_required(login_url='login')    # only logined person can visit the questions
+@csrf_protect
+#@login_required(login_url='login')    # only logined person can visit the questions
 def selectBranch(request):
     branch = Branch.objects.all()
     return render(request, 'selectBranch.html',{'data':branch})
 
+@csrf_protect
 def selectTest(request,branchID):
     branch = Branch.objects.get(id=branchID)
     obj = Tests.objects.filter(branch=branch).order_by('id')
     return render(request,'selectTest.html',{'data':obj})
 
+@csrf_protect
 # Displaying questions according to subject
-@login_required(login_url='login')     # only logined person can visit the questions
+#@login_required(login_url='login')     # only logined person can visit the questions
 def test_question(request,test_id):
     subject = TestSubject.objects.get(id=test_id)
     question = TestQuestions.objects.filter(subject=subject).order_by('id')
@@ -155,7 +196,8 @@ def test_question(request,test_id):
          }'''
     return render(request, 'test-question.html',output)
 
-@login_required(login_url='login')
+@csrf_protect
+#@login_required(login_url='login')
 def add_test(request):
     obj = None
     check = True
@@ -173,8 +215,9 @@ def add_test(request):
             obj = obj2.id
     return render(request, 'add-test.html', {'data':obj})
 
+@csrf_protect
 # @permission_required('admin.can_add_log_entry')  => admin i.e. superuser can access this page 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def test_arranged(request):
     # defining order of content in csv file
     prompt = {

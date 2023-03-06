@@ -37,7 +37,7 @@ urlpatterns = [
     #path('test-question/<int:test_id>/<int:question_id>',views.test_question,name='test_question'),
     path('test-arranged/',views.test_arranged,name='test_arranged'),
     path('add-test/',views.add_test,name='add_test'),
-    path('addingTest/<str:email>',views.addingTest,name='addingTest'),    
+    path('addingTest/<str:subID>',views.addingTest,name='addingTest'),    
 ]
 
 if settings.DEBUG:

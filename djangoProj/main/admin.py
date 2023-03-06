@@ -23,8 +23,12 @@ class QuestionBankAdmin(admin.ModelAdmin):
 admin.site.register(models.QuestionBank,QuestionBankAdmin)
 
 class TestsAdmin(admin.ModelAdmin):
-    list_display = ['branch','subject','testName']
+    list_display = ['branch','subject','testName','testDate', 'testStartTime','testEndTime']
 admin.site.register(models.Tests,TestsAdmin)
+
+class QuestionsAdmin(admin.ModelAdmin):
+    list_display = ['test','question']
+admin.site.register(models.Questions,QuestionsAdmin)
 
 class ProfessorsAdmin(admin.ModelAdmin):
     list_display = ['firstName','lastName','email','branch','subjectID']
