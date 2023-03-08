@@ -32,11 +32,11 @@ urlpatterns = [
     path('upload_questionBank/<str:subID>',views.upload_questionBank,name='upload_questionBank'),
     path('selectBranch/',views.selectBranch,name='selectBranch'),
     path('selectTest/<int:branchID>',views.selectTest,name='selectTest'),
-    path('test-subject/',views.test_subject,name='test_subject'), 
-    path('test-question/<int:test_id>',views.test_question,name='test_question'),
+    #path('test-subject/',views.test_subject,name='test_subject'), 
+    #path('test-question/<int:test_id>',views.test_question,name='test_question'),
     #path('test-question/<int:test_id>/<int:question_id>',views.test_question,name='test_question'),
-    path('test-arranged/',views.test_arranged,name='test_arranged'),
-    path('add-test/',views.add_test,name='add_test'),
+    #path('test-arranged/',views.test_arranged,name='test_arranged'),
+    #path('add-test/',views.add_test,name='add_test'),
     path('addingTest/<str:subID>',views.addingTest,name='addingTest'),    
 ]
 

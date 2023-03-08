@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
 from django.contrib import messages
 import csv,io
-from main.models import TestSubject, TestQuestions, Subjects, Branch, Tests, Professors, Students, QuestionBank
+from main.models import Subjects, Branch, Tests, Professors, Students, QuestionBank, Questions
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate,login,logout
 from django.views.decorators.csrf import csrf_protect
@@ -34,8 +34,7 @@ def index(request):
 
 @csrf_protect
 def addingTest(request,subID):
-    pass
-    '''if request.method=='POST':
+    if request.method=='POST':
         obj1 = Professors.objects.get(subjectID=subID)
         branch = Branch.objects.get(branch=obj1.branch)
         subject = Subjects.objects.get(subjectID=subID)
@@ -47,6 +46,7 @@ def addingTest(request,subID):
         testBufferTime = request.POST.get('testBufferTime')
         new_test = Tests(branch=branch,subject=subject,testName=testName,numberOfQuestions=numberOfQuestions,testDate=testDate,testStartTime=testStartTime,testEndTime=testEndTime,testBufferTime=testBufferTime)
         new_test.save()
+        #test =  Tests.objects.filter(branch=branch,subject=subject,testName=testName,numberOfQuestions=numberOfQuestions,testDate=testDate,testStartTime=testStartTime,testEndTime=testEndTime,testBufferTime=testBufferTime)
         obj2 = QuestionBank.objects.get(subjectID=subID)
         p = 'G:/project/djangoProj/media/'+str(obj2.questionBank)
         file = open(p)
@@ -60,8 +60,9 @@ def addingTest(request,subID):
         l = len(lines)
         for i in range(0,numberOfQuestions):
             j = random.randrange(0,l-1)
-            print(lines[i])
+            #print(lines[i])
             records = lines[j]
+            #print(subject,test,records[0],records[1],records[2],records[3],records[4],records[5])
             Questions.objects.update_or_create(
                 test = new_test,
                 question = records[0],
@@ -71,8 +72,8 @@ def addingTest(request,subID):
                 opt_4 = records[4],
                 right_opt = records[5]
             )
-        return redirect('profHome')
-    return render(request,'addingTest.html')'''
+        return redirect('profHome',{'data':subID})
+    return render(request,'addingTest.html')
 
 def profRegistrationForm(request):
     if request.method=='POST':
@@ -139,30 +140,29 @@ def logoutPage(request):
 #@login_required(login_url='login')
 def upload_questionBank(request,subID):
     # defining order of content in csv file
-    prompt = {
-        'order': '<b>NOTE:</b> Order of CSV file contents should be question, option_1, option_2, option_3, option_4, correct_option'
-    }
-    # checking whether the method is POST or not
-    if request.method == 'GET':
-        return render(request,'upload_questionBank.html',prompt)
-    csv_file = request.FILES['file']    # 'file' is name given to that uploaded file in test-arranged.html 
-    data = ''
-    # checking whether uploaded file is CSV or not
-    if not csv_file.name.endswith('.csv'):
-        messages.error(request, 'Uploaded file is not CSV File !!!')
+    try:
+        prompt = {
+            'order': '<b>NOTE:</b> Order of CSV file contents should be question, option_1, option_2, option_3, option_4, correct_option'
+        }
+        # checking whether the method is POST or not
+        if request.method == 'GET':
+            return render(request,'upload_questionBank.html',prompt)
+        csv_file = request.FILES['file']    # 'file' is name given to that uploaded file in test-arranged.html 
+        data = ''
+        # checking whether uploaded file is CSV or not
+        if not csv_file.name.endswith('.csv'):
+            messages.error(request, 'Uploaded file is not CSV File !!!')
+            return render(request, 'upload_questionBank.html', {'data':data})
+        #temp = Professors.objects.get(subjectID=subID)
+        #subID = temp.subjectID
+        obj = QuestionBank(subjectID=subID,questionBank=csv_file)
+        obj.save()
+        data = '</br><b>Your File Is Sucessfully Uploaded :)</b>'
         return render(request, 'upload_questionBank.html', {'data':data})
-    #temp = Professors.objects.get(subjectID=subID)
-    #subID = temp.subjectID
-    obj = QuestionBank(subjectID=subID,questionBank=csv_file)
-    obj.save()
-    data = '</br><b>Your File Is Sucessfully Uploaded :)</b>'
-    return render(request, 'upload_questionBank.html', {'data':data})
+    except:
+        return render(request,'profHome.html',{'data':obj.subID})
 
-@csrf_protect
-#@login_required(login_url='login')    # only logined person can visit the questions
-def test_subject(request):
-    subject = TestSubject.objects.all()
-    return render(request, 'test-subject.html',{'data':subject})
+
 
 @csrf_protect
 #@login_required(login_url='login')    # only logined person can visit the questions
@@ -175,27 +175,7 @@ def selectTest(request,branchID):
     branch = Branch.objects.get(id=branchID)
     obj = Tests.objects.filter(branch=branch).order_by('id')
     return render(request,'selectTest.html',{'data':obj})
-
-@csrf_protect
-# Displaying questions according to subject
-#@login_required(login_url='login')     # only logined person can visit the questions
-def test_question(request,test_id):
-    subject = TestSubject.objects.get(id=test_id)
-    question = TestQuestions.objects.filter(subject=subject).order_by('id')
-    output = {'final_questions' : question, 'subject' : subject}
-    '''paginator = Paginator(question,1)
-    page_number = request.GET.get('page')
-    final_questions = paginator.get_page(page_number) 
-    total_page = final_questions.paginator.num_pages
-    output = {
-            'question' : question, 
-            'subject' : subject, 
-            'final_questions' : final_questions, 
-            'last_page' : total_page,
-            'totalPagelist' : [n+1 for n in range(total_page)]
-         }'''
-    return render(request, 'test-question.html',output)
-
+'''
 @csrf_protect
 #@login_required(login_url='login')
 def add_test(request):
@@ -252,3 +232,4 @@ def test_arranged(request):
     # this will udate table with all row values provided in tuple form => can't use save()
     data = '</br><b>Your File Is Sucessfully Uploaded :)</b>'
     return render(request, 'test-arranged.html', {'data':data})
+'''
