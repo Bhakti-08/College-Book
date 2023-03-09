@@ -8,7 +8,7 @@
     <div class='col-md-4'>
         <div class='card'>
             <div class='card-body border-dark shadow'>
-                <h4 class='test-name'><a href="">{{d.testName}}</a></h4>
+                <h4 class='test-name'><a href="{% url 'test_question' d.id %}">{{d.testName}}</a></h4>
             </div>
         </div>
     </div>

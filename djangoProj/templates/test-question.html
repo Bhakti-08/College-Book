@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}{{subject.test_name}} Test{% endblock %}
+{% block title %}{{subject.subject}} Test{% endblock %}
 {% block content %}
-<h2 class='my-4'>Test Subject: <span class='text-primary'>{{subject.test_name}}</span></h2>
+<h2 class='my-4'>Test Subject: <span class='text-primary'>{{subject.testName}}</span></h2>
 {% for q in final_questions %}
 <div class='card my-4 border-dark shadow'>
     <h4 class='card-header border-dark'>Q.{{forloop.counter}} {{q.question}}</h4>

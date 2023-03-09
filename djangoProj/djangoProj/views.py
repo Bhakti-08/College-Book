@@ -32,44 +32,6 @@ def index(request):
     else:
         return render(request, 'index.html',{'data':''})
 
-@csrf_protect
-def addingTest(request,subID):
-    if request.method=='POST':
-        obj1 = Professors.objects.get(subjectID=subID)
-        branch = Branch.objects.get(branch=obj1.branch)
-        #branchID = branch.id
-        subject = Subjects.objects.get(subjectID=subID)
-        #subjectID = subject.id
-        testName = request.POST.get('testName')
-        numberOfQuestions = int(request.POST.get('numberOfQuestions'))
-        testDate = request.POST.get('testDate')
-        testStartTime = request.POST.get('testStartTime')
-        testEndTime = request.POST.get('testEndTime')
-        new_test = TestDetails(branch=branch,subject=subject,testName=testName,numberOfQuestions=numberOfQuestions,DateOfExam=testDate,StartTime=testStartTime,EndTime=testEndTime)
-        new_test.save()
-        obj2 = QuestionBank.objects.get(subjectID=subID)
-        p = 'G:/project/djangoProj/media/'+str(obj2.questionBank)
-        file = open(p)
-        csvFile = csv.reader(file)
-        #data_set = csvFile.read().decode('UTF-8')
-        #lines = data_set.split('\n')
-        
-        lines =[]
-        for i in csvFile:
-            lines.append(i)
-        l = len(lines)
-        for i in range(0,numberOfQuestions):
-            j = random.randrange(0,l-1)
-            #print(lines[i])
-            records = lines[j]
-            print(i,j,records)
-            #print(subject,test,records[0],records[1],records[2],records[3],records[4],records[5])
-            new_question = Questions(test = new_test,question = records[0],opt_1 = records[1],opt_2 = records[2],opt_3 = records[3],opt_4 = records[4],right_opt = records[5])
-            new_question.save()
-        return HttpResponse('Test is arranged successfully :)')
-        #return render(request,'profHome.html',{'data':subID})
-    return render(request,'addingTest.html')
-
 def profRegistrationForm(request):
     if request.method=='POST':
         firstName = request.POST.get('fname')
@@ -157,8 +119,6 @@ def upload_questionBank(request,subID):
     except:
         return render(request,'profHome.html',{'data':obj.subID})
 
-
-
 @csrf_protect
 #@login_required(login_url='login')    # only logined person can visit the questions
 def selectBranch(request):
@@ -174,8 +134,52 @@ def selectSubject(request,branchID):
 @csrf_protect
 def selectTest(request,subID):
     subject = Subjects.objects.get(id=subID)
-    obj = Tests.objects.filter(subject=subject).order_by('id')
+    obj = TestDetails.objects.filter(subject=subject).order_by('id')
     return render(request,'selectTest.html',{'data':obj})
+
+@csrf_protect
+def addingTest(request,subID):
+    if request.method=='POST':
+        obj1 = Professors.objects.get(subjectID=subID)
+        branch = Branch.objects.get(branch=obj1.branch)
+        #branchID = branch.id
+        subject = Subjects.objects.get(subjectID=subID)
+        #subjectID = subject.id
+        testName = request.POST.get('testName')
+        numberOfQuestions = int(request.POST.get('numberOfQuestions'))
+        testDate = request.POST.get('testDate')
+        testStartTime = request.POST.get('testStartTime')
+        testEndTime = request.POST.get('testEndTime')
+        new_test = TestDetails(branch=branch,subject=subject,testName=testName,numberOfQuestions=numberOfQuestions,DateOfExam=testDate,StartTime=testStartTime,EndTime=testEndTime)
+        new_test.save()
+        obj2 = QuestionBank.objects.get(subjectID=subID)
+        p = 'G:/project/djangoProj/media/'+str(obj2.questionBank)
+        file = open(p)
+        csvFile = csv.reader(file)
+        #data_set = csvFile.read().decode('UTF-8')
+        #lines = data_set.split('\n')
+        
+        lines =[]
+        for i in csvFile:
+            lines.append(i)
+        l = len(lines)
+        for i in range(0,numberOfQuestions):
+            j = random.randrange(0,l-1)
+            #print(lines[i])
+            records = lines[j]
+            print(i,j,records)
+            #print(subject,test,records[0],records[1],records[2],records[3],records[4],records[5])
+            new_question = Questions(test = new_test,question = records[0],opt_1 = records[1],opt_2 = records[2],opt_3 = records[3],opt_4 = records[4],right_opt = records[5])
+            new_question.save()
+        return HttpResponse('Test is arranged successfully :)')
+        #return render(request,'profHome.html',{'data':subID})
+    return render(request,'addingTest.html')
+
+def test_question(request,test_id):
+    subject = TestDetails.objects.get(id=test_id)
+    question = Questions.objects.filter(test=subject).order_by('id')
+    output = {'final_questions' : question, 'subject' : subject}
+    return render(request, 'test-question.html',output)
 '''
 @csrf_protect
 #@login_required(login_url='login')
