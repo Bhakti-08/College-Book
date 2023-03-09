@@ -43,7 +43,7 @@ class Students(models.Model):
     def __str__(self):
         return self.registrationNum
     
-class Tests(models.Model):
+class TestDetails(models.Model):
     branch = models.ForeignKey(Branch, on_delete = models.CASCADE, default=None)
     subject = models.ForeignKey(Subjects, on_delete = models.CASCADE)
     testName = models.CharField(max_length=20)
@@ -61,7 +61,7 @@ class Questions(models.Model):
     #subject = models.ForeignKey(Subjects, on_delete = models.CASCADE, default=None, null=True)
     # means if this category is terminated then all questions related to this category will also get deleted
     #subject = models.CharField(max_length=100)
-    test = models.ForeignKey(Tests, on_delete=models.CASCADE, default=None, null=True)
+    test = models.ForeignKey(TestDetails, on_delete=models.CASCADE, default=None, null=True)
     question = models.TextField()
     opt_1 = models.CharField(max_length=200)
     opt_2 = models.CharField(max_length=200)
