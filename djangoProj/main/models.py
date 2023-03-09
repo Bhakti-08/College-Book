@@ -48,11 +48,9 @@ class TestDetails(models.Model):
     subject = models.ForeignKey(Subjects, on_delete = models.CASCADE)
     testName = models.CharField(max_length=20)
     numberOfQuestions = models.IntegerField(default=None)
-    #testDuration = models.DurationField(default=None)
-    testDate = models.DateField(default=None)
-    testStartTime = models.TimeField(default=None)
-    testEndTime = models.TimeField(default=None)
-    testBufferTime = models.TimeField(default=None)    
+    DateOfExam = models.DateField(default=None)
+    StartTime = models.TimeField(default=None)
+    EndTime = models.TimeField(default=None)   
 
     def __str__(self):
         return self.testName

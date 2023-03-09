@@ -23,7 +23,7 @@ class StudentsAdmin(admin.ModelAdmin):
 admin.site.register(models.Students,StudentsAdmin)
 
 class TestDetailsAdmin(admin.ModelAdmin):
-    list_display = ['branch','subject','testName','testDate', 'testStartTime','testEndTime']
+    list_display = ['branch','subject','testName','DateOfExam', 'StartTime','EndTime']
 admin.site.register(models.TestDetails,TestDetailsAdmin)
 
 class QuestionsAdmin(admin.ModelAdmin):

@@ -45,46 +45,29 @@ def addingTest(request,subID):
         testDate = request.POST.get('testDate')
         testStartTime = request.POST.get('testStartTime')
         testEndTime = request.POST.get('testEndTime')
-        testBufferTime = request.POST.get('testBufferTime')
-        new_test = TestDetails(branch=branch,subject=subject,testName=testName,numberOfQuestions=numberOfQuestions,testDate=testDate,testStartTime=testStartTime,testEndTime=testEndTime,testBufferTime=testBufferTime)
+        new_test = TestDetails(branch=branch,subject=subject,testName=testName,numberOfQuestions=numberOfQuestions,DateOfExam=testDate,StartTime=testStartTime,EndTime=testEndTime)
         new_test.save()
-        print(new_test,'\n\n\n\n\n')
-        #test =  Tests.objects.filter(branch=branch,subject=subject,testName=testName,numberOfQuestions=numberOfQuestions,testDate=testDate,testStartTime=testStartTime,testEndTime=testEndTime,testBufferTime=testBufferTime)
         obj2 = QuestionBank.objects.get(subjectID=subID)
-        print(1,'\n\n\n\n\n')
         p = 'G:/project/djangoProj/media/'+str(obj2.questionBank)
-        print(2,'\n\n\n\n\n')
         file = open(p)
-        print(3,'\n\n\n\n\n')
         csvFile = csv.reader(file)
-        print(4,'\n\n\n\n\n')
         #data_set = csvFile.read().decode('UTF-8')
         #lines = data_set.split('\n')
         
         lines =[]
         for i in csvFile:
             lines.append(i)
-            print(5,'\n\n\n\n\n')
         l = len(lines)
         for i in range(0,numberOfQuestions):
-            print(6,'\n\n\n\n\n')
             j = random.randrange(0,l-1)
             #print(lines[i])
             records = lines[j]
-            print(7,'\n\n\n\n\n')
+            print(i,j,records)
             #print(subject,test,records[0],records[1],records[2],records[3],records[4],records[5])
-            Questions.objects.update_or_create(
-                test = new_test,
-                question = records[0],
-                opt_1 = records[1],
-                opt_2 = records[2],
-                opt_3 = records[3],
-                opt_4 = records[4],
-                right_opt = records[5]
-            )
-            print(8,'\n\n\n\n\n')
-        return render('profHome')
-    print(9,'\n\n\n\n\n')
+            new_question = Questions(test = new_test,question = records[0],opt_1 = records[1],opt_2 = records[2],opt_3 = records[3],opt_4 = records[4],right_opt = records[5])
+            new_question.save()
+        return HttpResponse('Test is arranged successfully :)')
+        #return render(request,'profHome.html',{'data':subID})
     return render(request,'addingTest.html')
 
 def profRegistrationForm(request):
